@@ -1,0 +1,1 @@
+{ "contacts": [ { "name": "Тест", "company": "Х", "phone": "+380501234567", "email": "t@x.ua", "deals": [ { "title": "T", "amount": 10, "stage": "unknown_stage", "date": "2026-01-01T00:00:00", "interactions": [] } ] } ] }

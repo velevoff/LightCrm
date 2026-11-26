@@ -1,0 +1,214 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="LightCrm.Views.MainWindow"
+        Title="Легкий CRM — контакти, угоди, історія взаємодій"
+        Width="1280" Height="800" MinWidth="1000" MinHeight="620">
+
+  <DockPanel>
+
+    <!-- Рядок стану + ProgressBar -->
+    <Border DockPanel.Dock="Bottom" Padding="10,6" BorderThickness="0,1,0,0" BorderBrush="Gray">
+      <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+        <TextBlock Grid.Column="0" Text="{Binding StatusText}" VerticalAlignment="Center"
+                   TextTrimming="CharacterEllipsis" />
+        <ProgressBar Grid.Column="1" Width="280" Minimum="0" Maximum="100"
+                     Value="{Binding ProgressPercent}" ShowProgressText="True"
+                     IsVisible="{Binding IsBusy}" />
+        <Button Grid.Column="2" Content="Скасувати" Command="{Binding CancelCommand}"
+                IsVisible="{Binding IsBusy}" />
+      </Grid>
+    </Border>
+
+    <!-- Панель інструментів: імпорт/експорт -->
+    <WrapPanel DockPanel.Dock="Top" Margin="8,8,8,0">
+      <Button Margin="0,0,8,8" Content="Імпорт JSON…" Command="{Binding ImportCommand}" />
+      <Button Margin="0,0,8,8" Content="Експорт JSON…" Command="{Binding ExportJsonCommand}" />
+      <Button Margin="0,0,8,8" Content="Експорт воронки (XML)…" Command="{Binding ExportFunnelXmlCommand}" />
+      <Button Margin="0,0,8,8" Content="Згенерувати великий файл (10 500 взаємодій)…"
+              Command="{Binding GenerateLargeFileCommand}" />
+    </WrapPanel>
+
+    <TabControl Margin="4">
+
+      <!-- ===================== Контакти ===================== -->
+      <TabItem Header="Контакти">
+        <Grid RowDefinitions="Auto,*,Auto" Margin="8" RowSpacing="8">
+          <!-- Єдине поле пошуку: ім'я АБО компанія -->
+          <TextBox Grid.Row="0" HorizontalAlignment="Left" Width="420"
+                   PlaceholderText="Пошук за іменем або компанією…" Text="{Binding SearchText}" />
+
+          <DataGrid Grid.Row="1" ItemsSource="{Binding Contacts}"
+                    SelectedItem="{Binding SelectedContact, Mode=TwoWay}"
+                    AutoGenerateColumns="False" IsReadOnly="True"
+                    CanUserSortColumns="True" CanUserResizeColumns="True"
+                    GridLinesVisibility="All" BorderThickness="1" BorderBrush="Gray">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Ім'я" Binding="{Binding Name, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Компанія" Binding="{Binding Company, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Телефон" Binding="{Binding Phone, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="E-mail" Binding="{Binding Email, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Угод" Binding="{Binding DealsCount, Mode=OneWay}" Width="80" />
+              <DataGridTextColumn Header="Сума угод" Binding="{Binding TotalAmount, StringFormat=N0, Mode=OneWay}" Width="*" />
+            </DataGrid.Columns>
+          </DataGrid>
+
+          <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8">
+            <Button Content="Додати" Command="{Binding AddContactCommand}" />
+            <Button Content="Редагувати" Command="{Binding EditContactCommand}" />
+            <Button Content="Видалити" Command="{Binding DeleteContactCommand}" />
+          </StackPanel>
+        </Grid>
+      </TabItem>
+
+      <!-- ===================== Угоди та взаємодії ===================== -->
+      <TabItem Header="Угоди та взаємодії">
+        <Grid RowDefinitions="Auto,*,Auto,Auto,*,Auto" Margin="8" RowSpacing="8">
+
+          <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="Етап:" VerticalAlignment="Center" />
+            <ComboBox Width="170" ItemsSource="{Binding StageOptions}"
+                      SelectedItem="{Binding SelectedStageFilter, Mode=TwoWay}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate><TextBlock Text="{Binding Title}" /></DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Період, з:" VerticalAlignment="Center" />
+            <CalendarDatePicker SelectedDate="{Binding DateFrom, Mode=TwoWay}" />
+            <TextBlock Text="по:" VerticalAlignment="Center" />
+            <CalendarDatePicker SelectedDate="{Binding DateTo, Mode=TwoWay}" />
+            <Button Content="Скинути фільтри" Command="{Binding ClearDealFiltersCommand}" />
+          </StackPanel>
+
+          <DataGrid Grid.Row="1" ItemsSource="{Binding Deals}"
+                    SelectedItem="{Binding SelectedDeal, Mode=TwoWay}"
+                    AutoGenerateColumns="False" IsReadOnly="True"
+                    CanUserSortColumns="True" CanUserResizeColumns="True"
+                    GridLinesVisibility="All" BorderThickness="1" BorderBrush="Gray">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Контакт" Binding="{Binding ContactName, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Компанія" Binding="{Binding Company, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Угода" Binding="{Binding Title, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Сума" Binding="{Binding Amount, StringFormat=N0, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Етап" Binding="{Binding StageTitle, Mode=OneWay}" SortMemberPath="Stage" Width="*" />
+              <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat=dd.MM.yyyy, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Взаємодій" Binding="{Binding InteractionsCount, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Остання активність" Binding="{Binding LastActivity, StringFormat=dd.MM.yyyy, Mode=OneWay}" Width="*" />
+            </DataGrid.Columns>
+          </DataGrid>
+
+          <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8">
+            <Button Content="Додати угоду" Command="{Binding AddDealCommand}" />
+            <Button Content="Редагувати угоду" Command="{Binding EditDealCommand}" />
+            <Button Content="Видалити угоду" Command="{Binding DeleteDealCommand}" />
+          </StackPanel>
+
+          <TextBlock Grid.Row="3" Text="Історія взаємодій вибраної угоди:" FontWeight="SemiBold" />
+
+          <DataGrid Grid.Row="4" ItemsSource="{Binding SelectedDealInteractions}"
+                    SelectedItem="{Binding SelectedInteraction, Mode=TwoWay}"
+                    AutoGenerateColumns="False" IsReadOnly="True"
+                    CanUserSortColumns="True" CanUserResizeColumns="True"
+                    GridLinesVisibility="All" BorderThickness="1" BorderBrush="Gray">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Тип" Binding="{Binding TypeName, Mode=OneWay}" Width="100" />
+              <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat=dd.MM.yyyy HH:mm, Mode=OneWay}" Width="150" />
+              <DataGridTextColumn Header="Підсумок" Binding="{Binding Summary, Mode=OneWay}" Width="*" />
+            </DataGrid.Columns>
+          </DataGrid>
+
+          <StackPanel Grid.Row="5" Orientation="Horizontal" Spacing="8">
+            <Button Content="Додати взаємодію" Command="{Binding AddInteractionCommand}" />
+            <Button Content="Редагувати взаємодію" Command="{Binding EditInteractionCommand}" />
+            <Button Content="Видалити взаємодію" Command="{Binding DeleteInteractionCommand}" />
+          </StackPanel>
+        </Grid>
+      </TabItem>
+
+      <!-- ===================== «Завислі» угоди ===================== -->
+      <TabItem Header="«Завислі» угоди">
+        <Grid RowDefinitions="Auto,Auto,*" Margin="8" RowSpacing="8">
+          <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="Днів без взаємодій більше за:" VerticalAlignment="Center" />
+            <TextBox Width="70" Text="{Binding StaleDaysText}" />
+            <TextBlock Text="Частин (Task.Run):" VerticalAlignment="Center" />
+            <TextBox Width="70" Text="{Binding PartsText}" />
+            <Button Content="Знайти (паралельно)" Command="{Binding FindStaleParallelCommand}" />
+            <Button Content="Знайти (1 потік)" Command="{Binding FindStaleSequentialCommand}" />
+          </StackPanel>
+
+          <TextBlock Grid.Row="1" Text="{Binding StaleSummary}" />
+
+          <DataGrid Grid.Row="2" ItemsSource="{Binding StaleDeals}"
+                    AutoGenerateColumns="False" IsReadOnly="True"
+                    CanUserSortColumns="True" CanUserResizeColumns="True"
+                    GridLinesVisibility="All" BorderThickness="1" BorderBrush="Gray">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Контакт" Binding="{Binding ContactName, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Компанія" Binding="{Binding Company, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Угода" Binding="{Binding DealTitle, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Сума" Binding="{Binding Amount, StringFormat=N0, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Етап" Binding="{Binding StageTitle, Mode=OneWay}" SortMemberPath="Stage" Width="*" />
+              <DataGridTextColumn Header="Остання активність" Binding="{Binding LastActivity, StringFormat=dd.MM.yyyy, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Днів без взаємодій" Binding="{Binding DaysIdle, Mode=OneWay}" Width="*" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </Grid>
+      </TabItem>
+
+      <!-- ===================== Воронка продажів ===================== -->
+      <TabItem Header="Воронка продажів">
+        <Grid RowDefinitions="Auto,*" Margin="8" RowSpacing="8">
+          <TextBlock Grid.Row="0" TextWrapping="Wrap"
+                     Text="Кумулятивна воронка: «Дійшло» — угоди, що досягли цього етапу або пішли далі (без «Програно»). Конверсія — відносно попереднього етапу. Експорт у XML — кнопка на панелі зверху." />
+          <DataGrid Grid.Row="1" ItemsSource="{Binding Funnel}"
+                    AutoGenerateColumns="False" IsReadOnly="True"
+                    CanUserSortColumns="False" GridLinesVisibility="All"
+                    BorderThickness="1" BorderBrush="Gray">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Етап" Binding="{Binding Title, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Угод на етапі" Binding="{Binding DealsCount, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Сума" Binding="{Binding TotalAmount, StringFormat=N0, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Дійшло" Binding="{Binding Reached, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Конверсія, %" Binding="{Binding ConversionPercent, Mode=OneWay}" Width="*" />
+              <DataGridTemplateColumn Header="Частка від усіх" Width="2*">
+                <DataTemplate>
+                  <ProgressBar Minimum="0" Maximum="100" Value="{Binding ReachedPercent}" Height="14" Margin="6,4" />
+                </DataTemplate>
+              </DataGridTemplateColumn>
+            </DataGrid.Columns>
+          </DataGrid>
+        </Grid>
+      </TabItem>
+
+      <!-- ===================== Порівняння продуктивності ===================== -->
+      <TabItem Header="Одно- та багатопотоковість">
+        <Grid RowDefinitions="Auto,Auto,*" Margin="8" RowSpacing="8">
+          <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="Днів:" VerticalAlignment="Center" />
+            <TextBox Width="60" Text="{Binding BenchDaysText}" />
+            <TextBlock Text="Множник набору:" VerticalAlignment="Center" />
+            <TextBox Width="70" Text="{Binding BenchMultiplierText}" />
+            <TextBlock Text="Повторів:" VerticalAlignment="Center" />
+            <TextBox Width="60" Text="{Binding BenchRepeatsText}" />
+            <Button Content="Запустити порівняння" Command="{Binding RunBenchmarkCommand}" />
+          </StackPanel>
+
+          <TextBlock Grid.Row="1" Text="{Binding BenchSummary}" TextWrapping="Wrap" />
+
+          <DataGrid Grid.Row="2" ItemsSource="{Binding BenchmarkRows}"
+                    AutoGenerateColumns="False" IsReadOnly="True"
+                    CanUserSortColumns="False" GridLinesVisibility="All"
+                    BorderThickness="1" BorderBrush="Gray">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Потоків (n)" Binding="{Binding Threads, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Середній час Tn, мс" Binding="{Binding AvgMs, StringFormat=F4, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Прискорення S = T1/Tn" Binding="{Binding Speedup, StringFormat=F3, Mode=OneWay}" Width="2*" />
+              <DataGridTextColumn Header="Ефективність E = S/n" Binding="{Binding Efficiency, StringFormat=F3, Mode=OneWay}" Width="2*" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </Grid>
+      </TabItem>
+
+    </TabControl>
+  </DockPanel>
+</Window>
