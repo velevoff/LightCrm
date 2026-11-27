@@ -48,7 +48,7 @@
               <DataGridTextColumn Header="Телефон" Binding="{Binding Phone, Mode=OneWay}" Width="*" />
               <DataGridTextColumn Header="E-mail" Binding="{Binding Email, Mode=OneWay}" Width="2*" />
               <DataGridTextColumn Header="Угод" Binding="{Binding DealsCount, Mode=OneWay}" Width="80" />
-              <DataGridTextColumn Header="Сума угод" Binding="{Binding TotalAmount, StringFormat=N0, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Сума угод" Binding="{Binding TotalAmount, StringFormat=N2, Mode=OneWay}" Width="*" />
             </DataGrid.Columns>
           </DataGrid>
 
@@ -88,7 +88,7 @@
               <DataGridTextColumn Header="Контакт" Binding="{Binding ContactName, Mode=OneWay}" Width="2*" />
               <DataGridTextColumn Header="Компанія" Binding="{Binding Company, Mode=OneWay}" Width="2*" />
               <DataGridTextColumn Header="Угода" Binding="{Binding Title, Mode=OneWay}" Width="2*" />
-              <DataGridTextColumn Header="Сума" Binding="{Binding Amount, StringFormat=N0, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Сума" Binding="{Binding Amount, StringFormat=N2, Mode=OneWay}" Width="*" />
               <DataGridTextColumn Header="Етап" Binding="{Binding StageTitle, Mode=OneWay}" SortMemberPath="Stage" Width="*" />
               <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat=dd.MM.yyyy, Mode=OneWay}" Width="*" />
               <DataGridTextColumn Header="Взаємодій" Binding="{Binding InteractionsCount, Mode=OneWay}" Width="*" />
@@ -146,7 +146,7 @@
               <DataGridTextColumn Header="Контакт" Binding="{Binding ContactName, Mode=OneWay}" Width="2*" />
               <DataGridTextColumn Header="Компанія" Binding="{Binding Company, Mode=OneWay}" Width="2*" />
               <DataGridTextColumn Header="Угода" Binding="{Binding DealTitle, Mode=OneWay}" Width="2*" />
-              <DataGridTextColumn Header="Сума" Binding="{Binding Amount, StringFormat=N0, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Сума" Binding="{Binding Amount, StringFormat=N2, Mode=OneWay}" Width="*" />
               <DataGridTextColumn Header="Етап" Binding="{Binding StageTitle, Mode=OneWay}" SortMemberPath="Stage" Width="*" />
               <DataGridTextColumn Header="Остання активність" Binding="{Binding LastActivity, StringFormat=dd.MM.yyyy, Mode=OneWay}" Width="*" />
               <DataGridTextColumn Header="Днів без взаємодій" Binding="{Binding DaysIdle, Mode=OneWay}" Width="*" />
@@ -167,7 +167,7 @@
             <DataGrid.Columns>
               <DataGridTextColumn Header="Етап" Binding="{Binding Title, Mode=OneWay}" Width="*" />
               <DataGridTextColumn Header="Угод на етапі" Binding="{Binding DealsCount, Mode=OneWay}" Width="*" />
-              <DataGridTextColumn Header="Сума" Binding="{Binding TotalAmount, StringFormat=N0, Mode=OneWay}" Width="*" />
+              <DataGridTextColumn Header="Сума" Binding="{Binding TotalAmount, StringFormat=N2, Mode=OneWay}" Width="*" />
               <DataGridTextColumn Header="Дійшло" Binding="{Binding Reached, Mode=OneWay}" Width="*" />
               <DataGridTextColumn Header="Конверсія, %" Binding="{Binding ConversionPercent, Mode=OneWay}" Width="*" />
               <DataGridTemplateColumn Header="Частка від усіх" Width="2*">
