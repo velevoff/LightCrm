@@ -4,8 +4,7 @@ using LightCrm.Models;
 namespace LightCrm.Services;
 
 // «Зависла» угода - результат пошуку.
-public sealed class StaleDeal
-{
+public sealed class StaleDeal {
     public StaleDeal(string contactName, string company, string dealTitle, decimal amount,
                      DealStage stage, DateTime lastActivity, int daysIdle) {
         ContactName = contactName;

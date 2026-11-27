@@ -6,7 +6,7 @@ using Serilog;
 
 namespace LightCrm.Services;
 
-// Імпорт/експорт бази у JSON.
+// ШІ: Чорнетка асинхронного імпорту/експорту бази у JSON.
 public static class JsonStorage {
     public static readonly JsonSerializerOptions Options = CreateOptions();
 

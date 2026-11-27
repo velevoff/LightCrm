@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SalesFunnel title="Воронка продажів" generatedAt="2026-11-27T18:03:34.964316+02:00">
+  <TotalDeals>120</TotalDeals>
+  <TotalAmount>128136930</TotalAmount>
+  <Stages>
+    <Stage code="Lead" title="Лід">
+      <DealsCount>22</DealsCount>
+      <TotalAmount>20201262</TotalAmount>
+      <Reached>107</Reached>
+      <ConversionPercent>100</ConversionPercent>
+    </Stage>
+    <Stage code="Qualified" title="Кваліфікація">
+      <DealsCount>25</DealsCount>
+      <TotalAmount>28359093</TotalAmount>
+      <Reached>85</Reached>
+      <ConversionPercent>79.4</ConversionPercent>
+    </Stage>
+    <Stage code="Proposal" title="Пропозиція">
+      <DealsCount>23</DealsCount>
+      <TotalAmount>23086116</TotalAmount>
+      <Reached>60</Reached>
+      <ConversionPercent>70.6</ConversionPercent>
+    </Stage>
+    <Stage code="Negotiation" title="Переговори">
+      <DealsCount>22</DealsCount>
+      <TotalAmount>27731727</TotalAmount>
+      <Reached>37</Reached>
+      <ConversionPercent>61.7</ConversionPercent>
+    </Stage>
+    <Stage code="Won" title="Виграно">
+      <DealsCount>15</DealsCount>
+      <TotalAmount>16284649</TotalAmount>
+      <Reached>15</Reached>
+      <ConversionPercent>40.5</ConversionPercent>
+    </Stage>
+    <Stage code="Lost" title="Програно">
+      <DealsCount>13</DealsCount>
+      <TotalAmount>12474083</TotalAmount>
+      <Reached>13</Reached>
+      <ConversionPercent>0</ConversionPercent>
+    </Stage>
+  </Stages>
+</SalesFunnel>

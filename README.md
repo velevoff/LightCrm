@@ -7,6 +7,7 @@ C# | .NET 10 | Avalonia UI 12 | MVVM | System.Text.Json | XmlSerializer | Serilo
 
 ```bash
 dotnet restore
+dotnet build
 dotnet run
 ```
 
