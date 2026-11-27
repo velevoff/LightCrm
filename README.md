@@ -28,6 +28,7 @@ LightCrm/
 ## Відповідність завданню
 
 | П. завдання | Де реалізовано |
+| --- | --- |
 | 1. C#, .NET 10, Avalonia 12 | `LightCrm.csproj` |
 | 2. crm.json, 50+ контактів, 10 000+ взаємодій, XML | `Data/crm.json`, `Data/crm_large.json`, експорт воронки в XML |
 | 3. ООП, ієрархія, IScheduledAction, композиція, MVVM | `Models/`, `ViewModels/`, `Views/` |
